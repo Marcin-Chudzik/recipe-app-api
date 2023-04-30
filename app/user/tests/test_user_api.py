@@ -1,8 +1,6 @@
 """
 Tests for the user API.
 """
-import re
-
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse
@@ -89,7 +87,7 @@ class PublicUserAPITests(TestCase):
         """Test returns error if credentials invalid."""
         create_user(email='test@example.com', password='sample123')
 
-        payload = {'email': 'invalid@example.com', 'password': 'invalid-password'}
+        payload = {'email': 'invalid@example.com', 'password': 'invalid-pass'}
         res = self.client.post(TOKEN_URL, payload)
 
         self.assertNotIn('token', res.data)
