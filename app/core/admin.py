@@ -5,7 +5,16 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext_lazy as _
 
-from .models import User, Recipe
+from .models import (
+    User,
+    Recipe,
+    Tag,
+)
+
+"""Registering the simple models."""
+MODELS = [Recipe, Tag]
+
+[admin.site.register(model_name) for model_name in MODELS]
 
 
 @admin.register(User)
@@ -44,6 +53,11 @@ class UserAdmin(BaseUserAdmin):
     )
 
 
-@admin.register(Recipe)
-class RecipeAdmin(admin.ModelAdmin):
-    pass
+# @admin.register(Recipe)
+# class RecipeAdmin(admin.ModelAdmin):
+#     pass
+#
+#
+# @admin.register(Tag)
+# class TagAdmin(admin.ModelAdmin):
+#     pass
