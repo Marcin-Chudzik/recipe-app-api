@@ -10,8 +10,14 @@ from rest_framework.routers import DefaultRouter
 
 from . import views
 
+VIEWSETS = [
+    ('recipes', views.RecipeViewSet),
+    ('tags', views.TagViewSet),
+]
+
 router = DefaultRouter()
-router.register('recipes', views.RecipeViewSet)
+for name, viewset in VIEWSETS:
+    router.register(name, viewset)
 
 app_name = 'recipe'
 
