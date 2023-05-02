@@ -13,6 +13,7 @@ from . import views
 VIEWSETS = [
     ('recipes', views.RecipeViewSet),
     ('tags', views.TagViewSet),
+    ('ingredients', views.IngredientViewSet),
 ]
 
 router = DefaultRouter()
