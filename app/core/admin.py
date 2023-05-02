@@ -9,10 +9,11 @@ from .models import (
     User,
     Recipe,
     Tag,
+    Ingredient,
 )
 
 """Registering the simple models."""
-MODELS = [Recipe, Tag]
+MODELS = [Recipe, Tag, Ingredient]
 
 [admin.site.register(model_name) for model_name in MODELS]
 
