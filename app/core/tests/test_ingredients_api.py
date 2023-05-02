@@ -34,7 +34,6 @@ class PublicIngredientsAPITests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
-
 class PrivateIngredientsAPITests(TestCase):
     """Tests authenticated API requests."""
 
@@ -58,7 +57,7 @@ class PrivateIngredientsAPITests(TestCase):
 
     def test_ingredients_limited_to_user(self):
         """Test list of ingredients is limited to authenticated user."""
-        other_user = create_user(email='other@example.com', password='sample123')
+        other_user = create_user(email='other@example.com', password='test12')
         Ingredient.objects.create(user=other_user, name='Salt')
         ingredient = Ingredient.objects.create(user=self.user, name='Pepper')
 
