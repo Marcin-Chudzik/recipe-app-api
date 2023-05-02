@@ -15,6 +15,7 @@ from recipe.serializers import IngredientSerializer
 
 INGREDIENTS_URL = reverse('recipe:ingredient-list')
 
+
 def detail_url(ingredient_id: int) -> str:
     """Create and return an ingredient detail URL."""
     return reverse('recipe:ingredient-detail', args=[ingredient_id])
@@ -75,7 +76,7 @@ class PrivateIngredientsAPITests(TestCase):
     def test_update_ingredient(self):
         """Test updating an ingredient."""
         ingredient = Ingredient.objects.create(user=self.user, name='Fish')
-        
+
         payload = {'name': 'Meat'}
         url = detail_url(ingredient.id)
         res = self.client.patch(url, payload)
