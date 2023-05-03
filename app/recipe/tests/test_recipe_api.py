@@ -403,12 +403,12 @@ class PrivateRecipeAPITests(TestCase):
         """Test filtering recipes by ingredients."""
         recipe1 = create_recipe(user=self.user, title='Posh Beans on Toast')
         recipe2 = create_recipe(user=self.user, title='Chicken Cacciatore')
-        ingredient1 = Ingredient.objects.create(user=self.user, name='Feta Cheese')
+        ingredient1 = Ingredient.objects.create(user=self.user, name='Cheese')
         ingredient2 = Ingredient.objects.create(user=self.user, name='Chicken')
         recipe1.ingredients.add(ingredient1)
         recipe2.ingredients.add(ingredient2)
         recipe3 = create_recipe(user=self.user, title='Spaghetti')
-        
+
         params = {'ingredients': f'{ingredient1.id},{ingredient2.id}'}
         res = self.client.get(RECIPES_URL, params)
 
