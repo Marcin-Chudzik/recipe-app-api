@@ -14,7 +14,7 @@ class UserManager(BaseUserManager):
     """Manager for users."""
 
     def create_user(self, email: str, password: str = None,
-                    **extra_fields) -> object:
+                    **extra_fields) -> "User":
         """Create, save and return a new user."""
         if not email:
             raise ValueError('User must have an email address.')
@@ -28,12 +28,18 @@ class UserManager(BaseUserManager):
 
         return user
 
-    def create_superuser(self, email: str, password: str) -> object:
-        """Create and return a new superuser."""
-        user = self.create_user(email, password)
+    def promote_to_superuser(self, user: "User") -> "User":
+        """Change normal user to superuser."""
         user.is_staff = True
         user.is_superuser = True
         user.save(using=self._db)
+
+        return user
+
+    def create_superuser(self, email: str, password: str) -> "User":
+        """Create and return a new superuser."""
+        user = self.create_user(email, password)
+        self.promote_to_superuser(user)
 
         return user
 

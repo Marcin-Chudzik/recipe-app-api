@@ -1,7 +1,6 @@
 """
 Tests for the tags API.
 """
-from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.test import TestCase
 
@@ -9,6 +8,7 @@ from rest_framework import status
 from rest_framework.test import APIClient
 
 from core.models import Tag
+from core.utils import create_user
 
 from recipe.serializers import TagSerializer
 
@@ -18,11 +18,6 @@ TAGS_URL = reverse('recipe:tag-list')
 def detail_url(tag_id: int) -> str:
     """Create and return a tag detail url."""
     return reverse('recipe:tag-detail', args=[tag_id])
-
-
-def create_user(email='test@example.com', password='sample123'):
-    """Create and return user."""
-    return get_user_model().objects.create_user(email=email, password=password)
 
 
 class PublicTagsAPITests(TestCase):
@@ -61,7 +56,7 @@ class PrivateTagsAPITests(TestCase):
 
     def test_tags_limited_to_user(self):
         """Test list of tags is limited to authenticated user."""
-        other_user = create_user(email='other-user@example.com')
+        other_user = create_user(email='otheruser@example.com')
         Tag.objects.create(user=other_user, name='Fruits')
         tag = Tag.objects.create(user=self.user, name='Vegetables')
 
