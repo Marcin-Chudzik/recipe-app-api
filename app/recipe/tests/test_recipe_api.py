@@ -36,6 +36,7 @@ def detail_url(recipe_id: int) -> str:
     """Create and return a recipe detail URL."""
     return reverse('recipe:recipe-detail', args=[recipe_id])
 
+
 def image_upload_url(recipe_id: int) -> str:
     """Create and return a recipe detail URL."""
     return reverse('recipe:recipe-upload-image', args=[recipe_id])
@@ -380,7 +381,7 @@ class PrivateRecipeAPITests(TestCase):
 
 class ImageUploadTests(TestCase):
     """Tests for the image upload API."""
-    
+
     def setUp(self):
         self.client = APIClient()
         self.user = create_user()
