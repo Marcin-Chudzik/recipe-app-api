@@ -7,7 +7,6 @@ from typing import (
 )
 from decimal import Decimal
 
-from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
@@ -19,6 +18,7 @@ from core.models import (
     Tag,
     Ingredient,
 )
+from core.utils import create_user
 
 from recipe.serializers import (
     RecipeSerializer,
@@ -48,11 +48,6 @@ def create_recipe(user: object, **params: Union[str, Any]) -> object:
     return recipe
 
 
-def create_user(**params: Union[str, Any]) -> object:
-    """Create and return a new user."""
-    return get_user_model().objects.create_user(**params)
-
-
 class PublicRecipeAPITests(TestCase):
     """Test unauthenticated API requests."""
 
@@ -71,7 +66,7 @@ class PrivateRecipeAPITests(TestCase):
 
     def setUp(self):
         self.client = APIClient()
-        self.user = create_user(email='test@example.com', password='sample123')
+        self.user = create_user()
         self.client.force_authenticate(self.user)
 
     def test_retrieve_recipes(self):
@@ -89,7 +84,7 @@ class PrivateRecipeAPITests(TestCase):
 
     def test_recipe_list_limited_to_user(self):
         """Test list of recipes is limited to authenticated user."""
-        other_user = create_user(email='other@example.com', password='sample')
+        other_user = create_user(email='other@example.com')
         create_recipe(user=other_user)
         create_recipe(user=self.user)
 
@@ -173,12 +168,9 @@ class PrivateRecipeAPITests(TestCase):
 
     def test_update_user_returns_error(self):
         """Test changing the recipe user results in an error."""
-        new_user = create_user(
-            email='newuser@example.com',
-            password='sample123',
-        )
+        other_user = create_user(email='other@example.com')
         recipe = create_recipe(user=self.user)
-        payload = {'user': new_user.id}
+        payload = {'user': other_user.id}
         url = detail_url(recipe.id)
         self.client.patch(url, payload)
 
@@ -197,11 +189,8 @@ class PrivateRecipeAPITests(TestCase):
 
     def test_delete_other_users_recipe_error(self):
         """Test trying to delete another users recipe gives error."""
-        new_user = create_user(
-            email='newuser@example.com',
-            password='sample123',
-        )
-        recipe = create_recipe(user=new_user)
+        other_user = create_user(email='other@example.com')
+        recipe = create_recipe(user=other_user)
 
         url = detail_url(recipe.id)
         res = self.client.delete(url)
