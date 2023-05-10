@@ -1,5 +1,5 @@
 FROM python:3.9-alpine3.13
-LABEL maintainer="https://www.linkedin.com/in/marcinchudzikwebdeveloper/"
+LABEL maintainer="https://github.com/Marcin-Chudzik"
 
 ENV PYTHONUNBUFFERED 1
 
